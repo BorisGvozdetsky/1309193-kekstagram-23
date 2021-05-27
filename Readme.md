@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
 * Студент: [Boris Gvozdetsky](https://up.htmlacademy.ru/javascript/23/user/1309193).
-* Наставник: `Неизвестно`.
+* Наставник: [Даниил Царёв](https://htmlacademy.ru/profile/id945835).
 
 ---
 
