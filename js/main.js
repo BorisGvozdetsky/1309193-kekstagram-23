@@ -1,15 +1,15 @@
-const IS_LONG = 140;
+const STRING_MAX_LENGTH = 140;
 
 const getRandomNumber = function (min, max) {
-  if (min < 0 || max < 0) {
-    return false;
+  if (max >= min || min < 0 || max < 0) {
+    throw new Error('Ожидаемые аргументы: 0 <= min < max');
   }
   return Math.round(min + Math.random() * (max - min));
 };
 
 const checkStringLength = function (string) {
-  return string.length < IS_LONG ? string : 'Строка слишком длинная';
+  return string.length < STRING_MAX_LENGTH ? string : 'Строка слишком длинная';
 };
 
-getRandomNumber(2, 77);
+getRandomNumber(-3, 77);
 checkStringLength('I love JavaScript');
