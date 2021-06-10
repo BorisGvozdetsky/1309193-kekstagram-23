@@ -1,4 +1,9 @@
-const DESCRIPTION = [
+const POSTS_COUNT = 25;
+const COMMENTS_COUNT = 5;
+const AVATAR_PATH = 'img/avatar-';
+const PICTURE_ADRESS = 'photos/';
+
+const DESCRIPTIONS = [
   'Огонь',
   'Круто',
   'Мое утро',
@@ -14,7 +19,7 @@ const DESCRIPTION = [
   'Высота 4000м',
 ];
 
-const COMMENTS_MESSAGE = [
+const COMMENTS = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
@@ -23,7 +28,7 @@ const COMMENTS_MESSAGE = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
 ];
 
-const COMMENTS_NAME = [
+const NAMES = [
   'Борис',
   'Натали',
   'Виктор',
@@ -31,55 +36,51 @@ const COMMENTS_NAME = [
   'Владимир',
 ];
 
-const SIMILAR_POSTS_COUNT = 25;
-const SIMILAR_COMMENTS_COUNT = 5;
-const AVATAR_PATH = 'img/avatar-';
-const AVATAR_EXT = '.svg';
-const PICTURE_ADRESS = 'photos/';
-const PICTURE_EXT = '.jpg';
-
-const LikesCount = {
+const likesCount = {
   MIN: 15,
   MAX: 200,
 };
 
-function getRandomPositiveInteger (min, max) {
-  const lower = Math.ceil(Math.min(Math.abs(min), Math.abs(max)));
-  const upper = Math.floor(Math.max(Math.abs(min), Math.abs(max)));
+const Extension = {
+  SVG: '.svg',
+  JPG: '.jpg',
+};
+
+const getRandomPositiveInteger = (a, b) => {
+  const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
+  const upper = Math.floor(Math.max(Math.abs(a), Math.abs(b)));
   const result = Math.random() * (upper - lower + 1) + lower;
   return Math.floor(result);
-}
+};
 
 // получение случайного элемента массива
 const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
 
-const createComment = function (el, index) {
+const createComment = (idx) => {
   // Перемешанный массив
-  const shuffledComments = COMMENTS_MESSAGE.sort(() => 0.5 - Math.random());
+  const shuffledComments = COMMENTS.sort(() => 0.5 - Math.random());
   // Получаем подмассив из первых n элементов после перетасовки
   const selectedComments = shuffledComments.slice(0, getRandomPositiveInteger (1, 2));
   return {
-    id: index + 1,
-    avatar: AVATAR_PATH + (index + 1) + AVATAR_EXT,
+    id: idx + 1,
+    avatar: AVATAR_PATH + (idx + 1) + Extension.SVG,
     message: selectedComments,
-    name: getRandomArrayElement(COMMENTS_NAME),
+    name: getRandomArrayElement(NAMES),
   };
 };
 
-const createPost = function (el, index) {
+const createPost = (index) => {
   // Генерация случайных объектов и заполнение ими массива.
-  const similarComments = new Array(getRandomPositiveInteger(0, SIMILAR_COMMENTS_COUNT)).fill(null).map(createComment);
+  const similarComments = new Array(getRandomPositiveInteger(0, COMMENTS_COUNT)).fill(null).map((_, idx) => createComment(idx));
   return {
     id: index + 1,
-    url: PICTURE_ADRESS + (index + 1) + PICTURE_EXT,
-    description: getRandomArrayElement(DESCRIPTION),
-    likes: getRandomPositiveInteger(LikesCount.MIN, LikesCount.MAX),
+    url: PICTURE_ADRESS + (index + 1) + Extension.JPG,
+    description: getRandomArrayElement(DESCRIPTIONS),
+    likes: getRandomPositiveInteger(likesCount.MIN, likesCount.MAX),
     comments: similarComments,
   };
 };
 
-const createSimmilarPosts = function () {
-  return new Array(SIMILAR_POSTS_COUNT).fill(null).map(createPost);
-};
+const createSimmilarPosts = () => new Array(POSTS_COUNT).fill(null).map((_, index) => createPost(index));
 
 createSimmilarPosts();
