@@ -75,4 +75,4 @@ const createPost = (index) => {
 
 const createSimmilarPosts = () => new Array(POSTS_COUNT).fill(null).map((_, index) => createPost(index));
 
-createSimmilarPosts();
+export {createSimmilarPosts};
