@@ -1,3 +1,3 @@
-import {createSimmilarPosts} from './data.js';
+import {createSimmilarPosts, POSTS_COUNT} from './data.js';
 
-createSimmilarPosts();
+createSimmilarPosts(POSTS_COUNT);
