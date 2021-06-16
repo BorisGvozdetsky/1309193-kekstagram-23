@@ -1,6 +1,5 @@
 import {getRandomPositiveInteger, getRandomArrayElement} from './utils.js';
 
-const POSTS_COUNT = 25;
 const COMMENTS_COUNT = 5;
 const AVATAR_PATH = 'img/avatar-';
 const PICTURE_ADRESS = 'photos/';
@@ -75,4 +74,4 @@ const createPost = (index) => {
 
 const createSimmilarPosts = (num) => new Array(num).fill(null).map((_, index) => createPost(index));
 
-export {createSimmilarPosts, POSTS_COUNT};
+export {createSimmilarPosts};

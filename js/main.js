@@ -1,3 +1,8 @@
-import {createSimmilarPosts, POSTS_COUNT} from './data.js';
+import {renderAllElements} from './rendering-pictures.js';
+import {createSimmilarPosts} from './data.js';
 
-createSimmilarPosts(POSTS_COUNT);
+const POSTS_COUNT = 25;
+
+const similarPictures = createSimmilarPosts(POSTS_COUNT);
+
+renderAllElements(similarPictures);
