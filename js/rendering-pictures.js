@@ -1,7 +1,7 @@
 const similarPicturesTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const similarListElement = document.querySelector('.pictures');
 
-const renderOneElement = ({url, comments, likes}) => {
+const renderPicture = ({url, comments, likes}) => {
   const pictureElement = similarPicturesTemplate.cloneNode(true);
   pictureElement.querySelector('.picture__img').src = url;
   pictureElement.querySelector('.picture__comments').textContent = comments.length;
@@ -9,12 +9,12 @@ const renderOneElement = ({url, comments, likes}) => {
   return pictureElement;
 };
 
-const renderAllElements = (pictures) => {
+const renderAllPictures = (pictures) => {
   const similarPicturesFragment = document.createDocumentFragment();
   pictures.forEach((item) => {
-    similarPicturesFragment.appendChild(renderOneElement(item));
+    similarPicturesFragment.appendChild(renderPicture(item));
   });
   similarListElement.appendChild(similarPicturesFragment);
 };
 
-export {renderAllElements};
+export {renderAllPictures};
