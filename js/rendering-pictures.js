@@ -1,11 +1,18 @@
+import {pictureClickHandler} from './popup.js';
+
 const similarPicturesTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const similarListElement = document.querySelector('.pictures');
 
-const renderPicture = ({url, comments, likes}) => {
+const renderPicture = (data) => {
   const pictureElement = similarPicturesTemplate.cloneNode(true);
-  pictureElement.querySelector('.picture__img').src = url;
-  pictureElement.querySelector('.picture__comments').textContent = comments.length;
-  pictureElement.querySelector('.picture__likes').textContent = likes;
+  pictureElement.querySelector('.picture__img').src = data.url;
+  pictureElement.querySelector('.picture__comments').textContent = data.comments.length;
+  pictureElement.querySelector('.picture__likes').textContent = data.likes;
+  pictureElement.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    pictureClickHandler(data);
+  });
+
   return pictureElement;
 };
 
