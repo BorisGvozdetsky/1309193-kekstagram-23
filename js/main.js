@@ -1,4 +1,4 @@
-import {renderAllPictures} from './rendering-pictures.js';
+import {renderAllPictures} from './gallery.js';
 import {createSimmilarPosts} from './data.js';
 import './form.js';
 

@@ -49,6 +49,10 @@ const openBigPicture = () => {
   bigPicture.classList.remove('hidden');
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
+  bigPictureCancel.addEventListener('click', () => {
+    closeBigPicture();
+    document.removeEventListener('keydown', onDocumentKeydown);
+  });
 };
 
 const renderBigPicture = ({comments, url, likes, description}) => {
@@ -65,13 +69,9 @@ const renderBigPicture = ({comments, url, likes, description}) => {
   bigPictureCommentsLoader.classList.add('hidden');
 };
 
-const pictureClickHandler = (pictureElement) => {
-  renderBigPicture(pictureElement);
+const showPopup = (picture) => {
+  renderBigPicture(picture);
   openBigPicture();
-  bigPictureCancel.addEventListener('click', () => {
-    closeBigPicture();
-    document.removeEventListener('keydown', onDocumentKeydown);
-  });
 };
 
-export {pictureClickHandler};
+export {showPopup};

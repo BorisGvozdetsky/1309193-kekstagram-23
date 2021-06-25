@@ -697,6 +697,9 @@ main {
   border-radius: 5px;
 }
 
+.is-error {
+  outline: 2px solid red;
+}
 
 /**
  * Кнопка для отправки изображения
