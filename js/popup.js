@@ -1,5 +1,7 @@
 import {isEscEvent} from './utils.js';
 
+const AVATAR_SIZE = 35;
+
 const bigPicture = document.querySelector('.big-picture');
 const bigPictureCancel = bigPicture.querySelector('.big-picture__cancel');
 const bigPictureImg = bigPicture.querySelector('.big-picture__img img');
@@ -10,11 +12,6 @@ const bigPictureCommentsCount = bigPicture.querySelector('.social__comment-count
 const bigPictureCommentsLoader = bigPicture.querySelector('.comments-loader');
 const bigPictureDescription = bigPicture.querySelector('.social__caption');
 
-const commentItemImgSize = {
-  WIDTH: 35,
-  HEIGHT: 35,
-};
-
 const createCommentItem = ({avatar, name, message}) => {
   const commentItem = document.createElement('li');
   const commentItemImg = document.createElement('img');
@@ -22,8 +19,8 @@ const createCommentItem = ({avatar, name, message}) => {
 
   commentItem.classList.add('social__comment');
   commentItemImg.classList.add('social__picture');
-  commentItemImg.width = commentItemImgSize.WIDTH;
-  commentItemImg.height = commentItemImgSize.HEIGHT;
+  commentItemImg.width = AVATAR_SIZE;
+  commentItemImg.height = AVATAR_SIZE;
   commentItemImg.src = avatar;
   commentItemImg.alt = name;
   commentItemText.classList.add('social__text');
@@ -52,6 +49,10 @@ const openBigPicture = () => {
   bigPicture.classList.remove('hidden');
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
+  bigPictureCancel.addEventListener('click', () => {
+    closeBigPicture();
+    document.removeEventListener('keydown', onDocumentKeydown);
+  });
 };
 
 const renderBigPicture = ({comments, url, likes, description}) => {
@@ -68,19 +69,9 @@ const renderBigPicture = ({comments, url, likes, description}) => {
   bigPictureCommentsLoader.classList.add('hidden');
 };
 
-const addPicturesClickHandlers = (pictureElements) => {
-  const pictures = document.querySelectorAll('.picture');
-  pictures.forEach((item, index) => {
-    item.addEventListener('click', (evt) => {
-      evt.preventDefault();
-      renderBigPicture(pictureElements[index]);
-      openBigPicture();
-      bigPictureCancel.addEventListener('click', () => {
-        closeBigPicture();
-        document.removeEventListener('keydown', onDocumentKeydown);
-      });
-    });
-  });
+const showPopup = (picture) => {
+  renderBigPicture(picture);
+  openBigPicture();
 };
 
-export {addPicturesClickHandlers};
+export {showPopup};
