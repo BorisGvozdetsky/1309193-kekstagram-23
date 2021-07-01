@@ -1,6 +1,6 @@
 import {getRandomPositiveInteger, getRandomArrayElement} from './utils.js';
 
-const COMMENTS_COUNT = 5;
+const COMMENTS_COUNT = 20;
 const AVATAR_PATH = 'img/avatar-';
 const PICTURE_ADRESS = 'photos/';
 
@@ -37,6 +37,11 @@ const NAMES = [
   'Владимир',
 ];
 
+const commentsAvatarCount = {
+  MIN: 1,
+  MAX: 6,
+};
+
 const likesCount = {
   MIN: 15,
   MAX: 200,
@@ -54,7 +59,7 @@ const createComment = (idx) => {
   const selectedComments = shuffledComments.slice(0, getRandomPositiveInteger (1, 2));
   return {
     id: idx + 1,
-    avatar: AVATAR_PATH + (idx + 1) + Extension.SVG,
+    avatar: AVATAR_PATH + (getRandomPositiveInteger(commentsAvatarCount.MIN, commentsAvatarCount.MAX)) + Extension.SVG,
     message: selectedComments.join(' '),
     name: getRandomArrayElement(NAMES),
   };
@@ -72,6 +77,6 @@ const createPost = (index) => {
   };
 };
 
-const createSimmilarPosts = (num) => new Array(num).fill(null).map((_, index) => createPost(index));
+const createSimilarPosts = (num) => new Array(num).fill(null).map((_, index) => createPost(index));
 
-export {createSimmilarPosts};
+export {createSimilarPosts};
