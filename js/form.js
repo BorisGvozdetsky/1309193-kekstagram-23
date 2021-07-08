@@ -1,5 +1,5 @@
 import {isEscEvent} from './utils.js';
-import {resetScale, resetAllEffects} from './image-editor.js';
+import {resetEditor} from './image-editor.js';
 
 
 const HASHTAGS_COUNT = 5;
@@ -57,8 +57,7 @@ const onHashtagsInput = () => {
 const closeUploadForm = () => {
   uploadForm.reset();
   setInputValid();
-  resetAllEffects();
-  resetScale();
+  resetEditor();
   uploadOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
 };
