@@ -1,58 +1,16 @@
 import {isEscEvent} from './utils.js';
 import {resetEditor} from './image-editor.js';
-
-
-const HASHTAGS_COUNT = 5;
-const HASHTAGS_CHECK = /^#[A-Za-zА-Яа-я0-9]{1,19}$/;
-const HASHTAG_LENGTH = 20;
+import {sendData} from './api.js';
+import {isInputActive, onHashtagsInput, setInputValid} from './validator.js';
 
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadFile = uploadForm.querySelector('#upload-file');
 const uploadOverlay = uploadForm.querySelector('.img-upload__overlay');
 const uploadClose = uploadForm.querySelector('.img-upload__cancel');
 const hashtagsInput = uploadForm.querySelector('.text__hashtags');
-const textComment = uploadForm.querySelector('.text__description');
 
-const isInputActive = () => document.activeElement === hashtagsInput || document.activeElement === textComment;
-
-const setInputInvalid = (errorText) => {
-  hashtagsInput.style.outline = '2px solid tomato';
-  hashtagsInput.setCustomValidity(errorText);
-};
-
-const setInputValid = () => {
-  hashtagsInput.style.outline = 'revert';
-  hashtagsInput.setCustomValidity('');
-};
-
-const onHashtagsInput = () => {
-  let hashtagCorrect = true;
-
-  if (hashtagsInput.value !== '') {
-    const hashtags = hashtagsInput.value.trim().split(' ');
-    const hashtag = hashtags.map((tag) => tag.toLowerCase());
-    const hashtagSet = new Set(hashtag);
-
-    for (let i = 0; i < hashtag.length; i++) {
-      hashtagCorrect = hashtagCorrect && HASHTAGS_CHECK.test(hashtag[i]);
-    }
-
-    if (hashtag.length > HASHTAGS_COUNT) {
-      setInputInvalid(`Нельзя указать больше чем ${HASHTAGS_COUNT} хештегов`);
-    } else if (hashtag.includes('#')) {
-      setInputInvalid('Хештег не может состоять только из одной решётки');
-    } else if (!hashtagCorrect) {
-      setInputInvalid(`Хэш-тег должен начинаться с символа #, состоять только из букв и чисел, не может содержать пробелы, спецсимволы. Максимальная длинна хештега ${HASHTAG_LENGTH} символов`);
-    } else if (hashtag.length !== hashtagSet.size) {
-      setInputInvalid('Один и тот же хэштег не может быть использован дважды');
-    } else {
-      setInputValid();
-    }
-    hashtagsInput.reportValidity();
-  } else {
-    setInputValid();
-  }
-};
+const successTemplate = document.querySelector('#success').content.querySelector('.success');
+const errorTemplate = document.querySelector('#error').content.querySelector('.error');
 
 const closeUploadForm = () => {
   uploadForm.reset();
@@ -62,11 +20,36 @@ const closeUploadForm = () => {
   document.body.classList.remove('modal-open');
 };
 
+const deleteErrorPopup = () => {
+  const errorPopup = document.querySelector('.error');
+  if (errorPopup) {
+    errorPopup.remove();
+  }
+};
+
+const deleteSuccessPopup = () => {
+  const successPopup = document.querySelector('.success');
+  if (successPopup) {
+    successPopup.remove();
+  }
+};
+
 const onDocumentKeydown = (evt) => {
   if (isEscEvent(evt) && !isInputActive()) {
     evt.preventDefault();
     closeUploadForm();
+    deleteSuccessPopup();
+    deleteErrorPopup();
     document.removeEventListener('keydown', onDocumentKeydown);
+  }
+};
+
+const onDocumentClick = (evt) => {
+  if (!evt.target.closest('.success__inner')) {
+    deleteSuccessPopup();
+  }
+  if (!evt.target.closest('.error__inner')) {
+    deleteErrorPopup();
   }
 };
 
@@ -80,5 +63,47 @@ const onUploadFileChange = () => {
     document.removeEventListener('keydown', onDocumentKeydown);
   });
 };
+
+const renderSuccessPopup = () => {
+  const successPopup = successTemplate.cloneNode(true);
+  document.body.appendChild(successPopup);
+
+  const successButtonElement = successPopup.querySelector('.success__button');
+  successButtonElement.addEventListener('click', deleteSuccessPopup);
+  document.addEventListener('click', onDocumentClick);
+};
+
+const renderErrorPopup = () => {
+  const errorPopup = errorTemplate.cloneNode(true);
+  document.body.appendChild(errorPopup);
+
+  const errorButtonElement = errorPopup.querySelector('.error__button');
+  errorButtonElement.addEventListener('click', deleteErrorPopup);
+  document.addEventListener('click', onDocumentClick);
+};
+
+const setUserFormSubmit = (onSuccess, onError) => {
+  uploadForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    sendData(
+      () => onSuccess(),
+      () => onError(),
+      new FormData(evt.target),
+    );
+
+  });
+};
+
+const executeFormSuccess = () => {
+  closeUploadForm();
+  renderSuccessPopup();
+};
+
+const executeFormError = () => {
+  closeUploadForm();
+  renderErrorPopup();
+};
+
+setUserFormSubmit(executeFormSuccess, executeFormError);
 
 uploadFile.addEventListener('change', onUploadFileChange);
