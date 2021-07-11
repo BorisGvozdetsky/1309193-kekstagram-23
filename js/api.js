@@ -1,12 +1,10 @@
-import {showAlert} from './utils.js';
-
-const getData = (onSuccess) => {
-  fetch('https://23.javascript.pages.academy/kekstagram/data')
+const getData = (onSuccess, onError, url) => {
+  fetch(url)
     .then((response) => {
       if (response.ok) {
         return response.json();
       } else {
-        showAlert('Не удалось получить данные. Попробуйте ещё раз');
+        onError();
       }
     })
     .then((pictures) => {
@@ -14,13 +12,12 @@ const getData = (onSuccess) => {
     })
 
     .catch(() => {
-      showAlert('Не удалось получить данные. Попробуйте ещё раз');
+      onError();
     });
 };
 
-const sendData = (onSuccess, onFail, body) => {
-  fetch(
-    'https://23.javascript.pages.academy/kekstagram',
+const sendData = (onSuccess, onError, body, url) => {
+  fetch(url,
     {
       method: 'POST',
       body,
@@ -30,11 +27,11 @@ const sendData = (onSuccess, onFail, body) => {
       if (response.ok) {
         onSuccess();
       } else {
-        onFail();
+        onError();
       }
     })
     .catch(() => {
-      onFail();
+      onError();
     });
 };
 

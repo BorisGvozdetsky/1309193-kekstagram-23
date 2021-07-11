@@ -1,4 +1,5 @@
 import {isEscEvent} from './utils.js';
+import {HIDDEN} from './image-editor.js';
 
 const AVATAR_SIZE = 35;
 const COMMENTS_STEP = 5;
@@ -18,16 +19,16 @@ let commentsArray = [];
 
 const showCommentsDomElements = () => {
   bigPictureCommentsList.innerHTML = '';
-  bigPictureCommentsLoader.classList.remove('hidden');
-  bigPictureCommentsCount.classList.remove('hidden');
-  bigPictureCommentsList.classList.remove('hidden');
+  bigPictureCommentsLoader.classList.remove(HIDDEN);
+  bigPictureCommentsCount.classList.remove(HIDDEN);
+  bigPictureCommentsList.classList.remove(HIDDEN);
   bigPictureHeader.style.borderBottom = '1px solid #cccccc';
 };
 
 const hideCommentsDomElements = () => {
-  bigPictureCommentsLoader.classList.add('hidden');
-  bigPictureCommentsCount.classList.add('hidden');
-  bigPictureCommentsList.classList.add('hidden');
+  bigPictureCommentsLoader.classList.add(HIDDEN);
+  bigPictureCommentsCount.classList.add(HIDDEN);
+  bigPictureCommentsList.classList.add(HIDDEN);
   bigPictureHeader.style.border = 0;
 };
 
@@ -75,7 +76,7 @@ const renderComments = () => {
 
   bigPictureCommentsCount.textContent = `${bigPictureCommentsList.children.length} из ${commentsArray.length} комментариев`;
   if (commentsArray.length === bigPictureCommentsList.children.length) {
-    bigPictureCommentsLoader.classList.add('hidden');
+    bigPictureCommentsLoader.classList.add(HIDDEN);
   }
 
   commentsShown += COMMENTS_STEP;
@@ -95,7 +96,7 @@ const renderBigPicture = ({comments, url, likes, description}) => {
 };
 
 const closeBigPicture = () => {
-  bigPicture.classList.add('hidden');
+  bigPicture.classList.add(HIDDEN);
   document.body.classList.remove('modal-open');
 };
 
@@ -108,7 +109,7 @@ const onDocumentKeydown = (evt) => {
 };
 
 const openBigPicture = () => {
-  bigPicture.classList.remove('hidden');
+  bigPicture.classList.remove(HIDDEN);
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
   bigPictureCancel.addEventListener('click', () => {
