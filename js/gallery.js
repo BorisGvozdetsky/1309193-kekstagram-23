@@ -1,7 +1,7 @@
 import {showPopup} from './popup.js';
 
 const similarPicturesTemplate = document.querySelector('#picture').content.querySelector('.picture');
-const similarListElement = document.querySelector('.pictures');
+const similarList = document.querySelector('.pictures');
 
 const renderPicture = (picture) => {
   const pictureElement = similarPicturesTemplate.cloneNode(true);
@@ -21,7 +21,7 @@ const renderAllPictures = (pictures) => {
   pictures.forEach((item) => {
     similarPicturesFragment.appendChild(renderPicture(item));
   });
-  similarListElement.appendChild(similarPicturesFragment);
+  similarList.appendChild(similarPicturesFragment);
 };
 
 export {renderAllPictures};

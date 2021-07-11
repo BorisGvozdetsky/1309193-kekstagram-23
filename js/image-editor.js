@@ -6,10 +6,10 @@ const decreaseScaleButton  = uploadForm.querySelector('.scale__control--smaller'
 const increaseScaleButton = uploadForm.querySelector('.scale__control--bigger');
 const scaleControlText = uploadForm.querySelector('.scale__control--value');
 const imgUploadPreview = uploadForm.querySelector('.img-upload__preview img');
-const effectContainerElement = uploadForm.querySelector('.effects__list');
-const sliderContainerElement = uploadForm.querySelector('.img-upload__effect-level');
-const sliderElement = uploadForm.querySelector('.effect-level__slider');
-const valueElement = uploadForm.querySelector('.effect-level__value');
+const effectContainer = uploadForm.querySelector('.effects__list');
+const sliderContainer = uploadForm.querySelector('.img-upload__effect-level');
+const effectSlider = uploadForm.querySelector('.effect-level__slider');
+const effectValue = uploadForm.querySelector('.effect-level__value');
 
 const scaleRange = {
   MIN: 25,
@@ -97,24 +97,24 @@ const updateSlider = (_, handle, unencoded) => {
   const sliderEffect = effectsConfig[currentEffect].effect;
   const sliderUnit = effectsConfig[currentEffect].unit;
 
-  valueElement.value = unencoded[handle];
-  updateImgEffect(sliderEffect, valueElement.value, sliderUnit);
+  effectValue.value = unencoded[handle];
+  updateImgEffect(sliderEffect, effectValue.value, sliderUnit);
 };
 
 const initSlider = (settings) => {
-  sliderContainerElement.classList.remove(HIDDEN);
-  if (!sliderElement.noUiSlider) {
-    noUiSlider.create(sliderElement, {...defaultSliderOptions, ...settings});
-    sliderElement.noUiSlider.on('update', updateSlider);
+  sliderContainer.classList.remove(HIDDEN);
+  if (!effectSlider.noUiSlider) {
+    noUiSlider.create(effectSlider, {...defaultSliderOptions, ...settings});
+    effectSlider.noUiSlider.on('update', updateSlider);
   } else {
-    sliderElement.noUiSlider.updateOptions(settings);
+    effectSlider.noUiSlider.updateOptions(settings);
   }
-  valueElement.value = settings.start;
+  effectValue.value = settings.start;
 };
 
 const destroySlider = () => {
-  if (sliderElement.noUiSlider) {
-    sliderElement.noUiSlider.destroy();
+  if (effectSlider.noUiSlider) {
+    effectSlider.noUiSlider.destroy();
   }
 };
 
@@ -127,9 +127,9 @@ const resetEffect = () => {
   currentEffect = 'none';
   imgUploadPreview.style.filter = '';
   imgUploadPreview.className = '';
-  valueElement.value = '';
+  effectValue.value = '';
   destroySlider();
-  sliderContainerElement.classList.add(HIDDEN);
+  sliderContainer.classList.add(HIDDEN);
 };
 
 const onEffectClick = (evt) => {
@@ -173,7 +173,7 @@ const resetEditor = () => {
 
 resetEditor();
 
-effectContainerElement.addEventListener('click', onEffectClick);
+effectContainer.addEventListener('click', onEffectClick);
 
 decreaseScaleButton.addEventListener('click', () => {
   setScale(getScale(-SCALE_STEP));
@@ -183,4 +183,4 @@ increaseScaleButton.addEventListener('click', () => {
   setScale(getScale(SCALE_STEP));
 });
 
-export {resetEditor};
+export {HIDDEN, resetEditor};
