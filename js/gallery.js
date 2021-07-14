@@ -16,8 +16,13 @@ const renderPicture = (picture) => {
   return pictureElement;
 };
 
+const removeAllPictures = () => {
+  similarList.querySelectorAll('.picture').forEach((item) => item.remove());
+};
+
 const renderAllPictures = (pictures) => {
   const similarPicturesFragment = document.createDocumentFragment();
+  removeAllPictures();
   pictures.forEach((item) => {
     similarPicturesFragment.appendChild(renderPicture(item));
   });
