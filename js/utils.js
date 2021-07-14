@@ -5,11 +5,29 @@ const getRandomPositiveInteger = (a, b) => {
   return Math.floor(result);
 };
 
-// получение случайного элемента массива
+const getRandomUniqueArrayElement = (min, max, length) => {
+  const elements = [];
+  while (elements.length !== length) {
+    const number = getRandomPositiveInteger(min, max);
+    if (!elements.includes(number)) {
+      elements.push(number);
+    }
+  }
+  return elements;
+};
+
 const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
 
 const checkStringLength = (string, length) => string.length <= length;
 
 const isEscEvent = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
 
-export {getRandomPositiveInteger, getRandomArrayElement, checkStringLength, isEscEvent};
+const debounce = (callback, timeoutDelay) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+export {getRandomPositiveInteger, getRandomArrayElement, checkStringLength, isEscEvent, debounce, getRandomUniqueArrayElement};
