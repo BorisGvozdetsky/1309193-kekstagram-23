@@ -7,7 +7,7 @@ const COMMENTS_STEP = 5;
 const bigPicture = document.querySelector('.big-picture');
 const bigPictureCancel = bigPicture.querySelector('.big-picture__cancel');
 const bigPictureImg = bigPicture.querySelector('.big-picture__img img');
-const bigPicturelikes = bigPicture.querySelector('.likes-count');
+const bigPicturelikesCount = bigPicture.querySelector('.likes-count');
 const bigPictureCommentsList = bigPicture.querySelector('.social__comments');
 const bigPictureCommentsCount = bigPicture.querySelector('.social__comment-count');
 const bigPictureCommentsLoader = bigPicture.querySelector('.comments-loader');
@@ -66,9 +66,9 @@ const renderComments = () => {
     return;
   }
 
-  const nextComments = commentsArray.slice(commentsShown, commentsShown + COMMENTS_STEP);
+  const slicedComments = commentsArray.slice(commentsShown, commentsShown + COMMENTS_STEP);
   const picturesFragment = document.createDocumentFragment();
-  nextComments.forEach((itm) => {
+  slicedComments.forEach((itm) => {
     picturesFragment.appendChild(createCommentItem(itm));
   });
 
@@ -86,7 +86,7 @@ const onBigPictureCommentsLoaderClick = () => renderComments();
 
 const renderBigPicture = ({comments, url, likes, description}) => {
   bigPictureImg.src = url;
-  bigPicturelikes.textContent = likes;
+  bigPicturelikesCount.textContent = likes;
   bigPictureDescription.textContent = description;
 
   clearComments();
@@ -108,14 +108,16 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
+const onBigPictureCancelClick = () => {
+  closeBigPicture();
+  document.removeEventListener('keydown', onDocumentKeydown);
+};
+
 const openBigPicture = () => {
   bigPicture.classList.remove(HIDDEN);
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
-  bigPictureCancel.addEventListener('click', () => {
-    closeBigPicture();
-    document.removeEventListener('keydown', onDocumentKeydown);
-  });
+  bigPictureCancel.addEventListener('click', onBigPictureCancelClick);
 };
 
 const showPopup = (picture) => {

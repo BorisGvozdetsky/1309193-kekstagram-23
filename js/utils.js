@@ -18,8 +18,6 @@ const getRandomUniqueArrayElement = (min, max, length) => {
 
 const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
 
-const checkStringLength = (string, length) => string.length <= length;
-
 const isEscEvent = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
 
 const debounce = (callback, timeoutDelay) => {
@@ -30,4 +28,4 @@ const debounce = (callback, timeoutDelay) => {
   };
 };
 
-export {getRandomPositiveInteger, getRandomArrayElement, checkStringLength, isEscEvent, debounce, getRandomUniqueArrayElement};
+export {getRandomPositiveInteger, getRandomArrayElement, isEscEvent, debounce, getRandomUniqueArrayElement};

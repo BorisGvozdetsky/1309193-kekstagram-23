@@ -1,5 +1,5 @@
 import {debounce, getRandomUniqueArrayElement} from './utils.js';
-import {renderAllPictures} from './gallery.js';
+import {renderPictures} from './gallery.js';
 
 const DEBOUNCE_DELAY = 500;
 const RANDOM_MAX_COUNT = 10;
@@ -35,7 +35,7 @@ const setActiveFilter = debounce((evt) => {
 
     document.querySelector('.img-filters__button--active').classList.remove('img-filters__button--active');
     activeFilterButton.classList.add('img-filters__button--active');
-    renderAllPictures(filteredPictures);
+    renderPictures(filteredPictures);
   }
 }, DEBOUNCE_DELAY);
 

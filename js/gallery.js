@@ -1,32 +1,32 @@
 import {showPopup} from './popup.js';
 
-const similarPicturesTemplate = document.querySelector('#picture').content.querySelector('.picture');
-const similarList = document.querySelector('.pictures');
+const picturesTemplate = document.querySelector('#picture').content.querySelector('.picture');
+const picturesList = document.querySelector('.pictures');
 
 const renderPicture = (picture) => {
-  const pictureElement = similarPicturesTemplate.cloneNode(true);
-  pictureElement.querySelector('.picture__img').src = picture.url;
-  pictureElement.querySelector('.picture__comments').textContent = picture.comments.length;
-  pictureElement.querySelector('.picture__likes').textContent = picture.likes;
-  pictureElement.addEventListener('click', (evt) => {
+  const pictureItem = picturesTemplate.cloneNode(true);
+  pictureItem.querySelector('.picture__img').src = picture.url;
+  pictureItem.querySelector('.picture__comments').textContent = picture.comments.length;
+  pictureItem.querySelector('.picture__likes').textContent = picture.likes;
+  pictureItem.addEventListener('click', (evt) => {
     evt.preventDefault();
     showPopup(picture);
   });
 
-  return pictureElement;
+  return pictureItem;
 };
 
-const removeAllPictures = () => {
-  similarList.querySelectorAll('.picture').forEach((item) => item.remove());
+const removePictures = () => {
+  picturesList.querySelectorAll('.picture').forEach((item) => item.remove());
 };
 
-const renderAllPictures = (pictures) => {
+const renderPictures = (pictures) => {
   const similarPicturesFragment = document.createDocumentFragment();
-  removeAllPictures();
+  removePictures();
   pictures.forEach((item) => {
     similarPicturesFragment.appendChild(renderPicture(item));
   });
-  similarList.appendChild(similarPicturesFragment);
+  picturesList.appendChild(similarPicturesFragment);
 };
 
-export {renderAllPictures};
+export {renderPictures};

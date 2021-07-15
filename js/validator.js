@@ -1,6 +1,6 @@
 const HASHTAGS_COUNT = 5;
 const HASHTAGS_CHECK = /^#[A-Za-zА-Яа-я0-9]{1,19}$/;
-const HASHTAG_LENGTH = 20;
+const HASHTAGS_LENGTH = 20;
 
 const uploadForm = document.querySelector('.img-upload__form');
 const hashtagsInput = uploadForm.querySelector('.text__hashtags');
@@ -18,7 +18,7 @@ const setInputValid = () => {
   hashtagsInput.setCustomValidity('');
 };
 
-const onHashtagsInput = () => {
+const onHashtagsFieldInput = () => {
   let hashtagCorrect = true;
 
   if (hashtagsInput.value !== '') {
@@ -35,7 +35,7 @@ const onHashtagsInput = () => {
     } else if (hashtag.includes('#')) {
       setInputInvalid('Хештег не может состоять только из одной решётки');
     } else if (!hashtagCorrect) {
-      setInputInvalid(`Хэш-тег должен начинаться с символа #, состоять только из букв и чисел, не может содержать пробелы, спецсимволы. Максимальная длинна хештега ${HASHTAG_LENGTH} символов`);
+      setInputInvalid(`Хэш-тег должен начинаться с символа #, состоять только из букв и чисел, не может содержать пробелы, спецсимволы. Максимальная длинна хештега ${HASHTAGS_LENGTH} символов`);
     } else if (hashtag.length !== hashtagSet.size) {
       setInputInvalid('Один и тот же хэштег не может быть использован дважды');
     } else {
@@ -47,4 +47,4 @@ const onHashtagsInput = () => {
   }
 };
 
-export {isInputActive, onHashtagsInput, setInputValid};
+export {isInputActive, onHashtagsFieldInput, setInputValid};

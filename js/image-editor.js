@@ -101,7 +101,7 @@ const updateSlider = (_, handle, unencoded) => {
   updateImgEffect(sliderEffect, effectValue.value, sliderUnit);
 };
 
-const initSlider = (settings) => {
+const initiateSlider = (settings) => {
   sliderContainer.classList.remove(HIDDEN);
   if (!effectSlider.noUiSlider) {
     noUiSlider.create(effectSlider, {...defaultSliderOptions, ...settings});
@@ -120,7 +120,7 @@ const destroySlider = () => {
 
 const applyEffect = (effect) => {
   imgUploadPreview.classList.add(`effects__preview--${effect}`);
-  initSlider(effectsConfig[effect].settings);
+  initiateSlider(effectsConfig[effect].settings);
 };
 
 const resetEffect = () => {
@@ -171,16 +171,20 @@ const resetEditor = () => {
   resetScale();
 };
 
+const onDecreaseScaleButtonClick = () => {
+  setScale(getScale(-SCALE_STEP));
+};
+
+const onIncreaseScaleButtonClick = () => {
+  setScale(getScale(SCALE_STEP));
+};
+
 resetEditor();
 
 effectContainer.addEventListener('click', onEffectClick);
 
-decreaseScaleButton.addEventListener('click', () => {
-  setScale(getScale(-SCALE_STEP));
-});
+decreaseScaleButton.addEventListener('click', onDecreaseScaleButtonClick);
 
-increaseScaleButton.addEventListener('click', () => {
-  setScale(getScale(SCALE_STEP));
-});
+increaseScaleButton.addEventListener('click', onIncreaseScaleButtonClick);
 
 export {HIDDEN, resetEditor};

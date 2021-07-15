@@ -1,7 +1,7 @@
 import {isEscEvent} from './utils.js';
 import {HIDDEN, resetEditor} from './image-editor.js';
 import {sendData} from './api.js';
-import {isInputActive, onHashtagsInput, setInputValid} from './validator.js';
+import {isInputActive, onHashtagsFieldInput, setInputValid} from './validator.js';
 import {renderMessagePopup} from './messages.js';
 
 const UPLOAD_URL = 'https://23.javascript.pages.academy/kekstagram';
@@ -11,7 +11,7 @@ const uploadForm = document.querySelector('.img-upload__form');
 const uploadFile = uploadForm.querySelector('#upload-file');
 const uploadOverlay = uploadForm.querySelector('.img-upload__overlay');
 const uploadClose = uploadForm.querySelector('.img-upload__cancel');
-const hashtagsInput = uploadForm.querySelector('.text__hashtags');
+const hashtagsField = uploadForm.querySelector('.text__hashtags');
 const imgUploadPreview = uploadForm.querySelector('.img-upload__preview img');
 const effectsPreviews = uploadForm.querySelectorAll('.effects__preview');
 
@@ -37,17 +37,19 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
+const onUploadCloseClick = () => {
+  closeUploadForm();
+  document.removeEventListener('keydown', onDocumentKeydown);
+};
+
 const openUploadForm = () => {
   resetEditor();
   resetUploadPicture();
   uploadOverlay.classList.remove(HIDDEN);
   document.body.classList.add('modal-open');
-  hashtagsInput.addEventListener('input', onHashtagsInput);
+  hashtagsField.addEventListener('input', onHashtagsFieldInput);
   document.addEventListener('keydown', onDocumentKeydown);
-  uploadClose.addEventListener('click', () => {
-    closeUploadForm();
-    document.removeEventListener('keydown', onDocumentKeydown);
-  });
+  uploadClose.addEventListener('click', onUploadCloseClick);
 };
 
 const uploadPicture = () => {
@@ -75,18 +77,6 @@ const onUploadFileChange = () => {
   uploadPicture();
 };
 
-const setUserFormSubmit = (onSuccess, onError) => {
-  uploadForm.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-    sendData(
-      () => onSuccess(),
-      () => onError(),
-      new FormData(evt.target),
-      UPLOAD_URL,
-    );
-  });
-};
-
 const executeFormSuccess = () => {
   closeUploadForm();
   renderMessagePopup('success');
@@ -97,6 +87,14 @@ const executeFormError = () => {
   renderMessagePopup('error');
 };
 
-setUserFormSubmit(executeFormSuccess, executeFormError);
+uploadForm.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  sendData(
+    () => executeFormSuccess(),
+    () => executeFormError(),
+    new FormData(evt.target),
+    UPLOAD_URL,
+  );
+});
 
 uploadFile.addEventListener('change', onUploadFileChange);
