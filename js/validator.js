@@ -22,7 +22,7 @@ const onHashtagsFieldInput = () => {
   let hashtagCorrect = true;
 
   if (hashtagsInput.value !== '') {
-    const hashtags = hashtagsInput.value.trim().split(' ');
+    const hashtags = hashtagsInput.value.trim().split(/ +/);
     const hashtag = hashtags.map((tag) => tag.toLowerCase());
     const hashtagSet = new Set(hashtag);
 

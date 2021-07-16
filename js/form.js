@@ -17,7 +17,9 @@ const effectsPreviews = uploadForm.querySelectorAll('.effects__preview');
 
 const resetUploadPicture = () => {
   imgUploadPreview.src = '';
-  effectsPreviews.forEach((item) => item.style.backgroundImage = 'none');
+  effectsPreviews.forEach((item) => {
+    item.style.backgroundImage = 'none';
+  });
 };
 
 const closeUploadForm = () => {
@@ -65,7 +67,9 @@ const uploadPicture = () => {
       const result = reader.result;
       imgUploadPreview.src = result;
 
-      effectsPreviews.forEach((item) => item.style.backgroundImage = `url(${result})`);
+      effectsPreviews.forEach((item) => {
+        item.style.backgroundImage = `url(${result})`;
+      });
     });
 
     reader.readAsDataURL(file);

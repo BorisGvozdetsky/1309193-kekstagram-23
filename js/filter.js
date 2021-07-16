@@ -27,7 +27,7 @@ const filters = {
   'filter-discussed': setFilterDiscussed,
 };
 
-const setActiveFilter = debounce((evt) => {
+const onFilterGroupClick = debounce((evt) => {
   if (evt.target.matches('.img-filters__button')) {
     const activeFilterButton = evt.target;
     const activeFilterName = activeFilterButton.id;
@@ -42,7 +42,7 @@ const setActiveFilter = debounce((evt) => {
 const setFilters = (pictures) => {
   data = pictures;
   filterGroup.classList.remove('img-filters--inactive');
-  filterGroup.addEventListener('click', setActiveFilter);
+  filterGroup.addEventListener('click', onFilterGroupClick);
 };
 
 export {setFilters};

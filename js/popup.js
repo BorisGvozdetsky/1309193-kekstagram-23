@@ -29,7 +29,7 @@ const hideCommentsDomElements = () => {
   bigPictureCommentsLoader.classList.add(HIDDEN);
   bigPictureCommentsCount.classList.add(HIDDEN);
   bigPictureCommentsList.classList.add(HIDDEN);
-  bigPictureHeader.style.border = 0;
+  bigPictureHeader.style.border = '0';
 };
 
 const clearComments = () => {

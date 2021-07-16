@@ -1,11 +1,11 @@
+
 const getData = (onSuccess, onError, url) => {
   fetch(url)
     .then((response) => {
       if (response.ok) {
         return response.json();
-      } else {
-        onError();
       }
+      onError();
     })
     .then((pictures) => {
       onSuccess(pictures);
@@ -26,9 +26,8 @@ const sendData = (onSuccess, onError, body, url) => {
     .then((response) => {
       if (response.ok) {
         onSuccess();
-      } else {
-        onError();
       }
+      onError();
     })
     .catch(() => {
       onError();
